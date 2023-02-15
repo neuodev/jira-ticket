@@ -1,0 +1,4 @@
+enum Token {
+  Name,
+  Job,
+}
