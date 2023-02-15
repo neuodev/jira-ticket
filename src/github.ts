@@ -61,6 +61,19 @@ export class GitHub {
       },
     };
   }
+
+  makeInvalidBranchNameMsg(branchName: string): string {
+    return [
+      `[auto-script] ⚠️ \`${branchName}\` doesn't full our branch naming convention.`,
+      `Should follow \`<tag>/<jira-ticket-id>/<short-name>\``,
+      `<details>`,
+      `<summary>Details</summary>\n`,
+      "- `<tag>`: `fix`, `feat`, `chore`, `refactor`, `test`, ...",
+      "- `<jira-ticket-id>`: The issue ID of JIRA all capital letters",
+      "- `<short-name>`: A short and descriptive name for the branch",
+      `</details>`,
+    ].join("\n");
+  }
 }
 
 export function getJiraIdFromBranchName(branchName: string): string | null {
