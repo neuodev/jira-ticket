@@ -4,7 +4,7 @@ Link GitHub pull requests with its associated Jira task.
 
 ## How it works
 
-The web server expose single endpoint `/api/v1/pull/:pullId` that accepts the pull request Id (Normally will be from the CI/CD) and will do the following.
+The web server exposes a single endpoint `/api/v1/pull/:pullId` that accepts the pull request Id (Normally will be from the CI/CD) and will do the following.
 
 1. The script will make sure the branch name is following the branch naming
    convention `<tag>/<jira-ticket-id>/<short-summary>`. If the branch doesn't
