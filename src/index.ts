@@ -1,7 +1,12 @@
 import { EnvVar, getEnvVarOrFail } from "./utils";
-import axios from "axios";
 import dotenv from "dotenv";
-import { getJiraIdFromBranchName } from "./github";
+import { GitHub } from "./github";
 
 // Load environment variables from `.env`
 dotenv.config({});
+
+const github = new GitHub(
+  getEnvVarOrFail(EnvVar.GitHubRepoOwner),
+  getEnvVarOrFail(EnvVar.GitHubRepoName),
+  getEnvVarOrFail(EnvVar.GithubApiToken)
+);
