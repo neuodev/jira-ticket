@@ -1,5 +1,5 @@
 {
-  "name": "jira-task",
+  "name": "jira-ticket",
   "version": "1.0.0",
   "description": "Web server to automatically associate Jira ticket with GitHub PR",
   "main": "index.ts",
