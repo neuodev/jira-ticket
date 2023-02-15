@@ -1,22 +1,34 @@
 import axios from "axios";
 import { EnvVar, getEnvVarOrFail } from "./utils";
 
-function getJiraAuthHeader() {
-  const token = getEnvVarOrFail(EnvVar.JiraApiToken);
-  const email = getEnvVarOrFail(EnvVar.JiraUserEmail);
+export class JiraApi {
+  token: string;
+  email: string;
+  baseUrl: string;
 
-  const auth = Buffer.from([email, token].join(":")).toString("base64");
-  return `Basic ${auth}`;
-}
+  constructor(token: string, email: string, baseUrl: string) {
+    this.token = token;
+    this.email = email;
+    this.baseUrl = baseUrl;
+  }
 
-export async function getJiraIssueSummary(issueId: string) {
-  const baseUrl = getEnvVarOrFail(EnvVar.JiraBaseUrl);
+  getJiraAuthHeader() {
+    const auth = Buffer.from([this.email, this.token].join(":")).toString(
+      "base64"
+    );
+    return `Basic ${auth}`;
+  }
 
-  const { data } = await axios.get(`${baseUrl}/rest/api/3/issue/${issueId}`, {
-    headers: {
-      Authorization: getJiraAuthHeader(),
-    },
-  });
+  async getJiraIssueSummary(issueId: string) {
+    const { data } = await axios.get(
+      `${this.baseUrl}/rest/api/3/issue/${issueId}`,
+      {
+        headers: {
+          Authorization: this.getJiraAuthHeader(),
+        },
+      }
+    );
 
-  return data.fields.summary;
+    return data.fields.summary;
+  }
 }
