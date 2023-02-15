@@ -1,5 +1,4 @@
 import axios from "axios";
-import { EnvVar, getEnvVarOrFail } from "./utils";
 
 export class JiraApi {
   token: string;

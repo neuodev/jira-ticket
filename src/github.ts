@@ -1,5 +1,4 @@
 import axios from "axios";
-import { EnvVar, getEnvVarOrFail } from "./utils";
 
 const JIRA_COMMENT_FLAG = "__JIRA_COMMENT_FLAG";
 
