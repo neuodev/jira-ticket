@@ -15,4 +15,4 @@ The web server expose single endpoint `/api/v1/pull/:pullId` that accepts the pu
 2. f the branch name is valid a comment will be made with the associated Jira
    ticket.
 
-   ![Jira task comment](./assets/jira-task-comment.png)
+   ![Jira task comment](./assets/jira-comment.png)
