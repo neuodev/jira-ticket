@@ -19,7 +19,7 @@ export class JiraApi {
     return `Basic ${auth}`;
   }
 
-  async getJiraIssueSummary(issueId: string) {
+  async getJiraIssueSummary(issueId: string): Promise<string> {
     const { data } = await axios.get(
       `${this.baseUrl}/rest/api/3/issue/${issueId}`,
       {

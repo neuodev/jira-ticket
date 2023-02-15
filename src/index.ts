@@ -4,6 +4,7 @@ import { getJiraIdFromBranchName, GitHub } from "./github";
 import { JiraApi } from "./jira";
 import express, { Request, Response } from "express";
 import "colors";
+import axios from "axios";
 
 // Load environment variables from `.env`
 dotenv.config({});
@@ -36,15 +37,34 @@ app.get(
       const branchName = await github.getBranchName(pullNum);
       const jiraTicketId = getJiraIdFromBranchName(branchName);
 
+      let commentBody: string | null;
+
       if (jiraTicketId === null) {
-        await github.makeComment(
-          pullNum,
-          github.makeInvalidBranchNameMsg(branchName)
+        commentBody = github.makeInvalidBranchNameMsg(branchName);
+      } else {
+        const summary = await jiraApi.getJiraIssueSummary(jiraTicketId);
+        commentBody = github.makeJiraCommentbody(
+          jiraTicketId,
+          summary,
+          jiraApi.baseUrl
         );
       }
 
+      const prevComment = await github.getPrevComment(pullNum);
+
+      if (prevComment === null) await github.makeComment(pullNum, commentBody);
+      else await github.updateComment(prevComment.id, commentBody);
+
       res.status(200).end();
-    } catch (error) {}
+    } catch (error) {
+      const err = axios.isAxiosError(error)
+        ? error.response?.data
+        : error instanceof Error
+        ? error.message
+        : error;
+
+      res.status(404).json({ error: err });
+    }
   }
 );
 

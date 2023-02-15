@@ -63,16 +63,32 @@ export class GitHub {
   }
 
   makeInvalidBranchNameMsg(branchName: string): string {
-    return [
-      `[auto-script] ⚠️ \`${branchName}\` doesn't full our branch naming convention.`,
-      `Should follow \`<tag>/<jira-ticket-id>/<short-name>\``,
-      `<details>`,
-      `<summary>Details</summary>\n`,
-      "- `<tag>`: `fix`, `feat`, `chore`, `refactor`, `test`, ...",
-      "- `<jira-ticket-id>`: The issue ID of JIRA all capital letters",
-      "- `<short-name>`: A short and descriptive name for the branch",
-      `</details>`,
-    ].join("\n");
+    return this.withFlag(
+      [
+        `[autoscript] ⚠️ \`${branchName}\` doesn't full our branch naming convention.`,
+        `Should follow \`<tag>/<jira-ticket-id>/<short-name>\``,
+        `<details>`,
+        `<summary>Details</summary>\n`,
+        "- `<tag>`: `fix`, `feat`, `chore`, `refactor`, `test`, ...",
+        "- `<jira-ticket-id>`: The issue ID of JIRA all capital letters",
+        "- `<short-name>`: A short and descriptive name for the branch",
+        `</details>`,
+      ].join("\n")
+    );
+  }
+
+  makeJiraCommentbody(
+    jiraTicketId: string,
+    jiraTicketSummary: string,
+    jiraBaseUrl: string
+  ) {
+    return this.withFlag(
+      `[autoscirpt] Jira Ticket: **[${jiraTicketSummary}](${jiraBaseUrl}/browse/${jiraTicketId})**`
+    );
+  }
+
+  withFlag(body: string) {
+    return `${body}\n\n[](${JIRA_COMMENT_FLAG})`;
   }
 }
 
